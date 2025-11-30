@@ -41,8 +41,8 @@ export default function Register() {
             <input
               {...register("username")}
               type="text"
-              className=" text-white w-full px-4 py-3 border border-primary/200 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent"
-              placeholder="jane_doe"
+              className=" text-white w-full px-4 py-3 border border-primary/200 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent color-black"
+              placeholder="Prashant."
             />
             {errors.username && (
               <p className="mt-1 text-xs text-red-600">
@@ -58,8 +58,8 @@ export default function Register() {
             <input
               {...register("email")}
               type="email"
-              className="w-full px-4 py-3 border border-primary/200 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent"
-              placeholder="jane@example.com"
+              className="w-full px-4 py-3 border border-primary/200 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent color-black"
+              placeholder="prashant@example.com"
             />
             {errors.email && (
               <p className="mt-1 text-xs text-red-600">
@@ -75,7 +75,7 @@ export default function Register() {
             <input
               {...register("password")}
               type="password"
-              className="w-full px-4 py-3 border border-primary/200 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent"
+              className="w-full px-4 py-3 border border-primary/200 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent color-black"
               placeholder="••••••••"
             />
             {errors.password && (
@@ -92,7 +92,7 @@ export default function Register() {
             <input
               {...register("confirmPassword")}
               type="password"
-              className="w-full px-4 py-3 border border-primary/200 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent"
+              className="w-full px-4 py-3 border border-primary/200 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent color-black"
               placeholder="••••••••"
             />
             {errors.confirmPassword && (
