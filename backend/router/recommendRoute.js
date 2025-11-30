@@ -18,6 +18,8 @@ const storage = multer.diskStorage({
 });
 const upload = multer({ storage, limits: { fileSize: 5 * 1024 * 1024 } });
 
+
+
 // Route A: POST generate with image upload
 router.post('/generate', auth, upload.single('image'), generateFromImage);
 // Route B: GET history

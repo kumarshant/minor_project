@@ -3,6 +3,7 @@
 require('dotenv').config();
 
 const express= require("express");
+const path= require('path');
 const app= express();
 const PORT = process.env.PORT;
 
@@ -31,7 +32,8 @@ app.use(
 //global middlewares for parsing the body into json objects or url type routes 
 app.use(express.json());
 app.use(express.urlencoded({extended:true}));
-
+// server.js — MUST HAVE THIS
+app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 // app.use("/uploads", express.static(path.join(__dirname, "/uploads"))); i am not using direct upload right now .
 
 app.use('/api/user', userRoute);

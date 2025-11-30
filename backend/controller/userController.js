@@ -78,7 +78,7 @@ const getProfile = async (req, res) => {
         _id: user._id,
         username: user.username,
         email: user.email,
-        images: user.images,
+        images: user.images || [],
       });
     } else {
       res.status(404).json({ message: "User not found" });

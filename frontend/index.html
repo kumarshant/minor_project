@@ -1,50 +1,22 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="scroll-smooth">
   <head>
     <meta charset="UTF-8" />
-    <link rel="icon" href="/favicon.ico" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.ico" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>AI Fashion Assistant</title>
 
-    <!-- Tailwind v4 CDN (Dev) -->
-    <script src="https://cdn.tailwindcss.com"></script>
-
-    <!-- Custom Theme -->
-    <script>
-      tailwind.config = {
-        theme: {
-          extend: {
-            colors: {
-              // Blue-Violet Luxury Palette
-              primary: {
-                50:  "#F3F2FF",
-                100: "#E4E1FF",
-                200: "#C7C3FF",
-                300: "#A9A2FF",
-                400: "#887EFF",
-                500: "#5440FF", // MAIN COLOR
-                600: "#4837D9",
-                700: "#3729A8",
-                800: "#251A73",
-                900: "#140F40",
-              },
-              dark: "#1A1A1A"
-            },
-            fontFamily: {
-              sans: ["Inter", "system-ui"],
-            },
-          },
-        },
-      }
-    </script>
-
+    <!-- Google Fonts: Inter -->
     <link
-      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap"
       rel="stylesheet"
     />
+
+    <!-- Tailwind CSS (compiled from src/index.css) -->
+    <!-- No CDN! No script! Full control & performance -->
   </head>
 
-  <body class="bg-white text-dark">
+  <body class="bg-white text-gray-900 antialiased">
     <div id="root"></div>
     <script type="module" src="/src/main.jsx"></script>
   </body>

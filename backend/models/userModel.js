@@ -25,12 +25,11 @@ const userSchema = new mongoose.Schema(
       minlength: 6,
     },
 
-    images: [
-      {
-        url: { type: String, required: true }, 
-        uploadedAt: { type: Date, default: Date.now },
-      },
-    ],
+   // CORRECT: Array of strings
+  images: [{
+    type: String,
+    required: true
+  }],
 
     createdAt: {
       type: Date,

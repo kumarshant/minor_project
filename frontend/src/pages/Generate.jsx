@@ -193,7 +193,7 @@ if (recommendationData) {
                 value={event}
                 onChange={(e) => setEvent(e.target.value)}
                 placeholder="Wedding, Office, Date Night..."
-                className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-primary-600 focus:border-transparent mb-3 text-white"
+                className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-primary-600 focus:border-transparent mb-3 text-black"
               />
               <p className="text-xs text-gray-500">Describe the occasion for better recommendations</p>
             </div>

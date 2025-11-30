@@ -3,6 +3,7 @@
 const Recommendation = require('../models/recommendationModel');
 const User = require('../models/userModel');
 const mongoose =require('mongoose');
+const path =require('path');
 
 
 const { detectFaceAndCrop } = require('../services/facedetectionservice.js');
@@ -22,6 +23,9 @@ const { getDressRecommendations } = require('../services/recommendationService.j
 
     const imagePath = req.file?.path || req.body.imagePath;
     if (!imagePath) return res.status(400).json({ message: 'Image required' });
+
+// Extract only the filename
+const filename = path.basename(imagePath);  // ← ONLY THIS PART
 
     const gender = req.body.gender || null;
     const age = req.body.age ? Number(req.body.age) : null;
@@ -43,11 +47,19 @@ const { getDressRecommendations } = require('../services/recommendationService.j
     // 3. SAVE USING STATIC METHOD
     const saved = await Recommendation.saveRecommendation({
       user: userId,
-      imagePath: geminiData.imagePath,
+      imagePath: filename,
       skinTone: geminiData.analysis.skinTone,
       undertone: geminiData.analysis.undertone,
       recommendations: geminiData.recommendations,
     });
+    // 4. ADD IMAGE PATH TO USER'S images ARRAY
+    await User.findByIdAndUpdate(
+      userId,
+      { 
+        $addToSet: { images: filename }  // $addToSet = no duplicates
+      },
+      { new: true }
+    );
 
     return res.status(201).json({ recommendation: saved });
 

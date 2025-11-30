@@ -135,11 +135,11 @@ export default function Home() {
           {/* Stats */}
           <div className="grid md:grid-cols-4 gap-8 mt-20">
             <div className="text-center bg-white/60 backdrop-blur-sm p-6 rounded-2xl">
-              <div className="text-4xl font-bold text-primary-600 mb-2">10K+</div>
+              <div className="text-4xl font-bold text-primary-600 mb-2">10+</div>
               <p className="text-gray-700 font-semibold">Happy Users</p>
             </div>
             <div className="text-center bg-white/60 backdrop-blur-sm p-6 rounded-2xl">
-              <div className="text-4xl font-bold text-primary-600 mb-2">500K+</div>
+              <div className="text-4xl font-bold text-primary-600 mb-2">50+</div>
               <p className="text-gray-700 font-semibold">Outfits Generated</p>
             </div>
             <div className="text-center bg-white/60 backdrop-blur-sm p-6 rounded-2xl">
@@ -147,8 +147,8 @@ export default function Home() {
               <p className="text-gray-700 font-semibold">Average Rating</p>
             </div>
             <div className="text-center bg-white/60 backdrop-blur-sm p-6 rounded-2xl">
-              <div className="text-4xl font-bold text-primary-600 mb-2">60+</div>
-              <p className="text-gray-700 font-semibold">Countries</p>
+              <div className="text-4xl font-bold text-primary-600 mb-2">6+</div>
+              <p className="text-gray-700 font-semibold">Perameters</p>
             </div>
           </div>
         </div>
@@ -181,7 +181,7 @@ export default function Home() {
               </div>
               <h3 className="text-2xl font-semibold mb-3">Upload Photo</h3>
               <p className="text-gray-600">
-                Share a selfie or headshot. Our AI instantly detects skin tone, undertone, and face shape with 99% accuracy.
+                Share a selfie or headshot. Our AI instantly detects skin tone, undertone, and face shape with 98% accuracy.
               </p>
             </div>
 
@@ -201,7 +201,7 @@ export default function Home() {
               </div>
               <h3 className="text-2xl font-semibold mb-3">Get 3 Outfits</h3>
               <p className="text-gray-600">
-                Receive curated looks with detailed reasons, color swatches, and direct shopping links to items.
+                Receive curated looks with detailed reasons, color swatches.
               </p>
             </div>
           </div>
@@ -246,7 +246,7 @@ export default function Home() {
         <div className="container mx-auto px-6">
           <div className="text-center mb-16">
             <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
-              Loved by Thousands
+              Loved by Creators
             </h2>
             <p className="text-xl text-gray-600">
               See what users say about their StyleAI experience
@@ -255,9 +255,9 @@ export default function Home() {
 
           <div className="grid md:grid-cols-3 gap-8">
             {[
-              { name: "Sarah M.", role: "Marketing Executive", text: "StyleAI saved me hours of guessing...", rating: 5 },
-              { name: "James P.", role: "Fashion Enthusiast", text: "The color analysis is spot-on...", rating: 5 },
-              { name: "Emma L.", role: "Freelance Designer", text: "As a designer, I appreciate the science...", rating: 5 },
+              { name: "Abhinav", role: "Student", text: "StyleAI is what we have built and proud of.", rating: 5 },
+              { name: "Hardik", role: "Fashion Enthusiast", text: "The color analysis is spot-on...", rating: 5 },
+              { name: "Vikas", role: "Frontend dev", text: "As a designer, I appreciate the science...", rating: 5 },
             ].map((t, i) => (
               <div key={i} className="bg-gray-50 p-8 rounded-2xl">
                 <div className="flex items-center gap-1 mb-4">
@@ -283,7 +283,7 @@ export default function Home() {
             Ready to Discover Your Perfect Colors?
           </h2>
           <p className="text-xl text-white/90 mb-8 max-w-2xl mx-auto">
-            Join thousands of users who've transformed their style with AI-powered color analysis
+            Join now to style with AI-powered color analysis
           </p>
 
           {user ? (
