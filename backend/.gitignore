@@ -7,5 +7,5 @@ info.txt
 # Dependencies
 /node_modules
 
-backend/uploads/
-backend/services/tmp
+/uploads
+/services/tmp
