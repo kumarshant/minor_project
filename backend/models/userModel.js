@@ -25,23 +25,10 @@ const userSchema = new mongoose.Schema(
       minlength: 6,
     },
 
-    preferences: {
-      skinTone: { type: String, enum: ["Fair", "Medium", "Deep"], default: null },
-      undertone: { type: String, enum: ["Warm", "Cool", "Neutral"], default: null },
-      stylePreferences: [{ type: String }], // e.g., ["casual", "formal", "streetwear"]
-      savedPalettes: [{ type: [String] }], // array of hex codes or palette names
-    },
-
     images: [
       {
         url: { type: String, required: true }, 
         uploadedAt: { type: Date, default: Date.now },
-        analyzedData: {
-          primaryColor: { type: String },
-          secondaryColor: { type: String },
-          accentColor: { type: String },
-          recommendations: [{ type: String }],
-        },
       },
     ],
 

@@ -1,6 +1,7 @@
 const express=require('express');
 const router= express.Router();
 const auth=require('../middleware/auth');
+
 const {
      signup,
     login,
@@ -12,8 +13,9 @@ const {
 
 router.post('/register',signup );
 router.post('/login',login);
-router.get('/profile',auth,getProfile);
-router.put('/profile',auth,editProfile);
+
+router.get('/me',auth,getProfile);
+router.put('/me',auth,editProfile);
 router.delete('/delete',auth, deleteProfile);
 
 

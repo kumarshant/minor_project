@@ -6,7 +6,6 @@ const bcrypt = require("bcrypt");
 const signup = async (req, res) => {
   try {
     const { username, email, password } = req.body;
-
     // Check if user exist
     const userExists = await User.findOne({ email });
     if (userExists) {
@@ -25,12 +24,15 @@ const signup = async (req, res) => {
     });
 
     if (user) {
-      res.status(201).json({
-        _id: user._id,
-        username: user.username,
-        email: user.email,
-        token: generateToken(user._id),
-      });
+    res.status(200).json({
+  user: {
+    _id: user._id,
+    username: user.username,
+    email: user.email,
+  },
+  token: generateToken(user._id),
+});
+
     } else {
       res.status(400).json({ message: "Invalid user data" });
     }
@@ -52,12 +54,15 @@ const login = async (req, res) => {
     const isMatch = await bcrypt.compare(password, user.password);
     if (!isMatch) return res.status(401).json({ message: "Invalid email or password" });
 
-    res.json({
-      _id: user._id,
-      username: user.username,
-      email: user.email,
-      token: generateToken(user._id),
-    });
+   res.json({
+  user: {
+    _id: user._id,
+    username: user.username,
+    email: user.email,
+  },
+  token: generateToken(user._id),
+});
+
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
@@ -73,7 +78,6 @@ const getProfile = async (req, res) => {
         _id: user._id,
         username: user.username,
         email: user.email,
-        preferences: user.preferences,
         images: user.images,
       });
     } else {
@@ -92,7 +96,6 @@ const editProfile = async (req, res) => {
     if (user) {
       user.username = req.body.username || user.username;
       user.email = req.body.email || user.email;
-      user.preferences = req.body.preferences || user.preferences;
 
       if (req.body.password) {
         const salt = await bcrypt.genSalt(10);
@@ -104,7 +107,6 @@ const editProfile = async (req, res) => {
         _id: updatedUser._id,
         username: updatedUser.username,
         email: updatedUser.email,
-        preferences: updatedUser.preferences,
         token: generateToken(updatedUser._id),
       });
     } else {
