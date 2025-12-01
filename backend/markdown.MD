@@ -22,9 +22,9 @@ The backend is designed as a **RESTful API** that integrates with a **React/Next
 flowchart TD
     A[Frontend: React] --> B[Backend API: Express]
     B -->|Auth| C[(Auth Service - JWT)]
-    B -->|Image Upload| D[(File Storage - Cloudinary/Firebase)]
-    B -->|Color Extraction| E[(Color Analysis Service - ColorThief/ChromaJS)]
-    E --> F[(Skin Tone Classifier - TF.js/ml5.js)]
-    F --> G[(Recommendation Engine - Rule-based + AI)]
-    G --> H[(Database - MongoDB/Firebase)]
+    B -->|Image Upload| D[(File Storage - Local Storage)]
+    B -->|Color Extraction| E[(Color Analysis Service - OpenCV.js)]
+    E --> F[(Skin Tone Classifier - OpenCV.js)]
+    F --> G[(Recommendation Engine - GEMINI )]
+    G --> H[(Database - MongoDB/Local Storage)]
     H --> B
