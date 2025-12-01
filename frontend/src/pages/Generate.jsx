@@ -14,6 +14,9 @@ export default function Generate() {
   const [loading, setLoading] = useState(false);
   const [result, setResult] = useState(null);
   const [resultsRef, setResultsRef] = useState(null);
+  const [age, setAge] = useState("");
+const [gender, setGender] = useState("");
+
 
   const { logout, token } = useAuthStore();
   const navigate = useNavigate();
@@ -69,6 +72,8 @@ export default function Generate() {
     const form = new FormData();
     form.append("image", image.file);
     form.append("event", event);
+    form.append("age", age);
+    form.append("gender", gender);
 
     try {
       const res = await api.post("/recommend/generate", form, {
@@ -197,6 +202,38 @@ if (recommendationData) {
               />
               <p className="text-xs text-gray-500">Describe the occasion for better recommendations</p>
             </div>
+
+            {/* //age  */}
+            <div>
+  <p className="text-sm font-semibold text-gray-700 mb-3">Age</p>
+  <input
+    type="number"
+    value={age}
+    onChange={(e) => setAge(e.target.value)}
+    placeholder="e.g., 25"
+    className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-primary-600 focus:border-transparent mb-3 text-black"
+  />
+  <p className="text-xs text-gray-500">Enter your age for personalized suggestions</p>
+</div>
+
+{/* //gender */}
+
+<div>
+  <p className="text-sm font-semibold text-gray-700 mb-3">Gender</p>
+  <select
+    value={gender}
+    onChange={(e) => setGender(e.target.value)}
+    className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-primary-600 focus:border-transparent mb-3 text-black"
+  >
+    <option value="">Select gender</option>
+    <option value="male">Male</option>
+    <option value="female">Female</option>
+    <option value="other">Other</option>
+  </select>
+  <p className="text-xs text-gray-500">Choose your gender for better recommendations</p>
+</div>
+
+
             
           </div>
 

@@ -41,7 +41,7 @@ export default function Login() {
             <input
               {...register("email")}
               type="email"
-              className="w-full px-4 py-3 border border-primary/200 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent color-black"
+              className=" text-black w-full px-4 py-3 border border-primary/200 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent color-black"
               placeholder="jane@example.com"
             />
             {errors.email && (
@@ -56,7 +56,7 @@ export default function Login() {
             <input
               {...register("password")}
               type="password"
-              className="w-full px-4 py-3 border border-primary/200 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent color-black"
+              className=" text-black w-full px-4 py-3 border border-primary/200 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent color-black"
               placeholder="••••••••"
             />
             {errors.password && (

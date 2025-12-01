@@ -28,16 +28,38 @@ const { getDressRecommendations } = require('../services/recommendationService.j
 const filename = path.basename(imagePath);  // ← ONLY THIS PART
 
     const gender = req.body.gender || null;
+    console.log(gender);
     const age = req.body.age ? Number(req.body.age) : null;
+     console.log(age);
     const event = req.body.event || null;
+     console.log(event);
+
 
     // 1. Face analysis
     const { skinToneHex, undertone, detectedGender, detectedAge } = await detectFaceAndCrop(imagePath);
-
+    let finalAge= null;
+    let finalGender=null;
+    if(gender){
+       finalGender=gender;
+         console.log(`gender provided ${finalGender}`);
+    }
+    else{
+      finalGender=detectedGender;
+      console.log("detected gender")
+    }
+    if(age){
+      finalAge= age;
+      console.log(`age provided  ${finalAge}`)
+      
+        }
+    else{
+      finalAge=detectedAge;
+      console.log("detected age ")
+    }
     // 2. Gemini
     const geminiData = await getDressRecommendations({
-      gender: gender || detectedGender,
-      age: age || detectedAge,
+      gender: finalGender ,
+      age: finalAge ,
       skinTone: skinToneHex,
       undertone,
       event,

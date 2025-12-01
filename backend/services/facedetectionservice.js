@@ -210,7 +210,7 @@ async function detectFaceAndCrop(imagePath) {
     genderPreds = genderNet.forward();
     const genderIdx = argMax(Array.from(genderPreds.data32F));
     gender = GENDER_LIST[genderIdx];
-    console.log(`Detected Gender: ${gender}`);
+    // console.log(`Detected Gender: ${gender}`);
   } catch (e) {
     console.error('Gender prediction error:', e.message);
   } finally {
@@ -227,7 +227,7 @@ async function detectFaceAndCrop(imagePath) {
     agePreds = ageNet.forward();
     const ageIdx = argMax(Array.from(agePreds.data32F));
     age = AGE_LIST[ageIdx];
-    console.log(`Detected Age: ${age}`);
+    // console.log(`Detected Age: ${age}`);
   } catch (e) {
     console.error('Age prediction error:', e.message);
   } finally {
@@ -278,8 +278,8 @@ async function detectFaceAndCrop(imagePath) {
     const avg = getAverageSkinColor(maskedFace, finalMask);
     skinToneHex = rgbToHex(avg.r, avg.g, avg.b);
     undertone = getUndertone(avg.r, avg.b);
-    console.log(`Detected Skin Tone: ${skinToneHex}`);
-    console.log(`Detected Undertone: ${undertone}`);
+    // console.log(`Detected Skin Tone: ${skinToneHex}`);
+    // console.log(`Detected Undertone: ${undertone}`);
   } catch (e) {
     console.error('Skin tone detection failed:', e.message);
   }
@@ -294,7 +294,7 @@ async function detectFaceAndCrop(imagePath) {
   );
   outCtx.putImageData(imgData, 0, 0);
 
-  // ------------------- Cleanup -------------------
+  
   blob.delete();
   faceRGB.delete();
   faceRGBForMask.delete();
@@ -319,8 +319,8 @@ async function detectFaceAndCrop(imagePath) {
   fs.writeFileSync(croppedPath, buffer);
 
   console.log(`Face saved: ${croppedPath}`);
-  console.log(`Detected Age: ${age}`);
-  console.log(`Detected Gender: ${gender}`);
+  // console.log(`Detected Age: ${age}`);
+  // console.log(`Detected Gender: ${gender}`);
 
   // ------------------- Return -------------------
   return {
