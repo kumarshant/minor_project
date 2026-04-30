@@ -43,4 +43,8 @@ F --> G[Gemini Vision Analysis]
 G --> H[Advanced Recommendations]
 H --> I[Shopping Links]
 I --> J[AI Stylist Chat]
+<<<<<<< HEAD
 J --> K[Save Conversation]
+=======
+J --> K[Save Conversation]
+>>>>>>> eba2349 (updatated readme)
