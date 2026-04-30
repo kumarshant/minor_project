@@ -1,8 +1,8 @@
-// src/pages/Profile.jsx
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import api from "../services/api";
 import toast from "react-hot-toast";
+
 import {
   LogOut,
   Trash2,
@@ -10,195 +10,320 @@ import {
   ArrowLeft,
   User,
   Mail,
+  Sparkles,
+  Crown,
+  CheckCircle,
+  Zap,
+  Coins,
   Calendar,
+  MessageCircle,
+  Edit
 } from "lucide-react";
+
 import { useAuthStore } from "../store/useAuthStore";
 
 const BACKEND_URL = "http://localhost:5000";
 
-export default function Profile() {
+export default function Account() {
+  const navigate = useNavigate();
+  const { logout, token } = useAuthStore();
+
   const [user, setUser] = useState(null);
   const [history, setHistory] = useState([]);
   const [selectedItem, setSelectedItem] = useState(null);
+
   const [loading, setLoading] = useState(true);
   const [deleting, setDeleting] = useState(false);
 
-  const { logout, token } = useAuthStore();
-  const navigate = useNavigate();
+  const isPremium =
+    user?.userType === "PREMIUM"
 
+  /*
+  ----------------------------------
+  AUTH CHECK
+  ----------------------------------
+  */
   useEffect(() => {
     if (!token) {
-      toast.error("Please log in");
-      navigate("/login", { replace: true });
+      navigate("/login");
     }
-  }, [token, navigate]);
+  }, [token]);
 
+ 
   useEffect(() => {
     const fetchData = async () => {
-      if (!token) return;
-
       try {
         setLoading(true);
 
-        const [userRes, historyRes] = await Promise.all([
-          api.get("/user/me"),           // or "/user/profile"
-          api.get("/recommend/history"),
-        ]);
+        const [userRes, historyRes] =
+          await Promise.all([
+            api.get("/user/me"),
+            api.get("/recommend/history")
+          ]);
 
         setUser(userRes.data);
+
         setHistory(
-          historyRes.data.recommendations ||
-            historyRes.data.items ||
-            historyRes.data ||
-            []
+          historyRes.data.recommendations || []
         );
       } catch (error) {
-        console.error("Fetch error:", error);
-        toast.error(error.response?.data?.message || "Failed to load profile");
+        toast.error(
+          error.response?.data?.message ||
+            "Failed loading account"
+        );
       } finally {
         setLoading(false);
       }
     };
 
-    fetchData();
+    if (token) {
+      fetchData();
+    }
   }, [token]);
 
+
   const handleDelete = async (id) => {
-    if (!window.confirm("Delete this recommendation permanently?")) return;
+    if (
+      !window.confirm(
+        "Delete this recommendation?"
+      )
+    )
+      return;
 
     try {
       setDeleting(true);
+
       await api.delete(`/recommend/${id}`);
-      setHistory((prev) => prev.filter((item) => item._id !== id));
+
+      setHistory((prev) =>
+        prev.filter((item) => item._id !== id)
+      );
+
       setSelectedItem(null);
-      toast.success("Deleted successfully!");
+
+      toast.success(
+        "Recommendation deleted"
+      );
     } catch (error) {
-      toast.error("Failed to delete");
+      toast.error("Delete failed");
     } finally {
       setDeleting(false);
     }
   };
 
+ 
   const handleLogout = () => {
     logout();
-    toast.success("Logged out");
     navigate("/login");
+  };
+
+ 
+  const handleEditProfile = () => {
+    navigate("/edit-profile");
+  };
+
+
+  const handleChat = (conversationId) => {
+    navigate(`/chat/${conversationId}`);
   };
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-[#7C3AED] via-[#4F46E5] to-[#7C3AED] flex items-center justify-center">
-        <div className="text-white text-2xl font-bold animate-pulse">
-          Loading your style profile...
+      <div className="min-h-screen bg-ocean-gradient flex items-center justify-center">
+        <div className="text-white text-2xl flex items-center gap-3">
+          <Sparkles className="animate-spin text-cyan-bright" />
+          Loading account...
         </div>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-[#7C3AED] via-[#4F46E5] to-[#7C3AED]">
-      <div className="w-full px-4 py-6 md:px-8 lg:px-12">
+    <div className="min-h-screen bg-ocean-gradient relative overflow-hidden">
+      
+      <div className="absolute inset-0 pointer-events-none">
+        <div className="absolute top-0 right-0 w-96 h-96 bg-cyan-bright/20 rounded-full blur-3xl"></div>
+        <div className="absolute bottom-0 left-0 w-96 h-96 bg-ocean-500/20 rounded-full blur-3xl"></div>
+      </div>
 
-        {/* Header */}
-        <div className="flex justify-between items-center mb-8 flex-wrap gap-4">
+      <div className="sticky top-0 z-50 bg-white/5 backdrop-blur-xl border-b border-white/10">
+        <div className="max-w-6xl mx-auto px-6 py-4 flex justify-between items-center">
+
           <button
             onClick={() => navigate("/")}
-            className="flex items-center gap-2 bg-white/10 backdrop-blur text-white px-6 py-3 rounded-xl font-medium hover:bg-white/20 transition"
+            className="text-white flex items-center gap-2"
           >
-            <ArrowLeft size={20} /> Back to Home
+            <ArrowLeft size={20} />
+            Back Home
           </button>
-          <button
-            onClick={handleLogout}
-            className="flex items-center gap-2 bg-red-500 text-white px-6 py-3 rounded-xl font-medium hover:bg-red-600 transition"
-          >
-            <LogOut size={20} /> Logout
-          </button>
-        </div>
 
-        {/* User Info Card */}
+          <div className="flex gap-3">
+            <button
+              onClick={handleEditProfile}
+              className="bg-cyan-bright text-ocean-900 px-4 py-2 rounded-xl font-semibold flex items-center gap-2"
+            >
+              <Edit size={18} />
+              Edit Profile
+            </button>
+            <button
+              onClick={handleLogout}
+              className="bg-red-500 text-white px-4 py-2 rounded-xl flex items-center gap-2"
+            >
+              <LogOut size={18} />
+              Logout
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <div className="relative z-10 max-w-6xl mx-auto px-6 py-12">
+
+        {/* PROFILE CARD */}
         {user && (
-          <div className="bg-white/95 backdrop-blur rounded-3xl shadow-2xl p-8 mb-10">
-            <div className="flex flex-col md:flex-row items-center gap-8">
-              <div className="w-32 h-32 bg-gradient-to-br from-[#7C3AED] to-[#4F46E5] rounded-full flex items-center justify-center shadow-xl">
-                <User className="w-16 h-16 text-white" />
-              </div>
-              <div className="text-center md:text-left flex-1">
-                <h1 className="text-4xl font-bold text-gray-900 mb-4">
-                  {user.username || user.email.split("@")[0]}
-                </h1>
-                <div className="flex items-center justify-center md:justify-start gap-2 text18 text-gray-600">
-                  <Mail size={18} />
-                  <span>{user.email}</span>
+          <div className="bg-white/10 backdrop-blur-xl rounded-3xl p-8 border border-white/10 mb-10">
+            <div className="flex flex-col lg:flex-row justify-between gap-8">
+
+              {/* user info */}
+              <div className="flex items-center gap-6">
+                <div className="w-24 h-24 rounded-full bg-gradient-to-br from-ocean-500 to-ocean-700 flex items-center justify-center">
+                  <User className="text-cyan-bright w-12 h-12" />
                 </div>
+
+                <div>
+                  <h1 className="text-3xl font-black text-white">
+                    {user.username}
+                  </h1>
+
+                  <div className="flex items-center gap-2 text-ocean-200 mt-2">
+                    <Mail size={16} />
+                    {user.email}
+                  </div>
+                </div>
+              </div>
+
+              {/* membership */}
+              <div
+                className={`rounded-2xl p-6 min-w-[320px] ${
+                  isPremium
+                    ? "bg-yellow-500/10 border border-yellow-400/30"
+                    : "bg-white/5 border border-white/10"
+                }`}
+              >
+                <div className="flex items-center gap-3 mb-4">
+                  {isPremium ? (
+                    <Crown className="text-yellow-400" />
+                  ) : (
+                    <Zap className="text-cyan-bright" />
+                  )}
+
+                  <h2 className="text-xl font-bold text-white">
+                    {isPremium
+                      ? "Premium Member"
+                      : "Standard Member"}
+                  </h2>
+                </div>
+
+                {/* credits */}
+                <div className="flex items-center gap-2 text-white mb-3">
+                  <Coins size={18} className="text-yellow-400" />
+                  Credits: {user.credits || 0}
+                </div>
+
+                {/* premium expiry */}
+                {isPremium && (
+                  <div className="flex items-center gap-2 text-white">
+                    <Calendar
+                      size={18}
+                      className="text-cyan-bright"
+                    />
+                    Expires:{" "}
+                    {user.premiumExpiresAt
+                      ? new Date(
+                          user.premiumExpiresAt
+                        ).toLocaleDateString()
+                      : "N/A"}
+                  </div>
+                )}
               </div>
             </div>
 
-            <div className="grid grid-cols-3 gap-6 mt-10 pt-8 border-t-2 border-gray-200 text-center">
-              <div>
-                <p className="text-4xl font-bold text-[#7C3AED]">{history.length}</p>
-                <p className="text-gray-600 mt-2">Total Outfits</p>
+            {/* stats */}
+            <div className="grid md:grid-cols-3 gap-6 mt-10 pt-8 border-t border-white/10">
+              <div className="text-center">
+                <p className="text-4xl font-bold text-cyan-bright">
+                  {history.length}
+                </p>
+                <p className="text-ocean-200">
+                  Total Recommendations
+                </p>
               </div>
-              <div>
-                <p className="text-4xl font-bold text-[#7C3AED]">{user.images?.length || 0}</p>
-                <p className="text-gray-600 mt-2">Photos Uploaded</p>
+
+              <div className="text-center">
+                <p className="text-4xl font-bold text-cyan-bright">
+                  {isPremium ? "∞" : "limited"}
+                </p>
+                <p className="text-ocean-200">
+                  Monthly Limit
+                </p>
               </div>
-              <div>
-                <p className="text-4xl font-bold text-[#7C3AED]">Premium</p>
-                <p className="text-gray-600 mt-2">Your Style Journey</p>
+
+              <div className="text-center">
+                <p className="text-4xl font-bold text-cyan-bright">
+                  {isPremium ? "AI+" : "Basic"}
+                </p>
+                <p className="text-ocean-200">
+                  Recommendation Tier
+                </p>
               </div>
             </div>
           </div>
         )}
 
-        {/* Style History Only */}
-        <div className="bg-white/95 backdrop-blur rounded-3xl shadow-2xl p-8">
-          <h2 className="text-3xl font-bold text-gray-900 mb-8">Your Style History</h2>
+        {/* HISTORY */}
+        <div className="bg-white/10 backdrop-blur-xl rounded-3xl p-8 border border-white/10">
+          <h2 className="text-3xl font-black text-white mb-8">
+            Style History
+          </h2>
 
           {history.length === 0 ? (
-            <div className="text-center py-20">
-              <p className="text-2xl text-gray-600 mb-8">No style history yet</p>
+            <div className="text-center py-12">
+              <p className="text-ocean-200 mb-6">
+                No recommendations yet
+              </p>
+
               <button
                 onClick={() => navigate("/generate")}
-                className="bg-[#7C3AED] text-white px-10 py-4 rounded-xl text-lg font-bold hover:bg-[#6D28D9] transition shadow-lg"
+                className="bg-cyan-bright text-ocean-900 px-8 py-4 rounded-xl font-bold"
               >
-                Generate Your First Outfit
+                Generate Outfit
               </button>
             </div>
           ) : (
-            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
+            <div className="grid md:grid-cols-3 lg:grid-cols-4 gap-6">
               {history.map((item) => (
                 <div
                   key={item._id}
-                  onClick={() => setSelectedItem(item)}
-                  className="bg-white rounded-2xl overflow-hidden shadow-xl hover:shadow-2xl hover:-translate-y-2 transition cursor-pointer border border-gray-100"
+                  onClick={() =>
+                    setSelectedItem(item)
+                  }
+                  className="bg-ocean-900/40 rounded-2xl overflow-hidden cursor-pointer hover:scale-105 transition"
                 >
-                  <div className="aspect-square bg-gray-100">
-                    <img
-                      src={`${BACKEND_URL}/uploads/${item.imagePath}`}
-                      alt="Your uploaded photo"
-                      className="w-full h-full object-cover"
-                      onError={(e) => {
-                        e.target.src = "https://via.placeholder.com/400x400/f3f4f6/9ca3af?text=No+Image";
-                        e.target.onerror = null;
-                      }}
-                    />
-                  </div>
-                  <div className="p-5">
-                    <p className="font-bold text-lg text-gray-900 truncate">
-                      {item.event || "Custom Style"}
+                  <img
+                    src={`${BACKEND_URL}/${item.imagePath}`}
+                    alt="history"
+                    className="w-full h-64 object-cover"
+                  />
+
+                  <div className="p-4">
+                    <p className="text-white font-bold">
+                      {item.event}
                     </p>
-                    <p className="text-sm text-gray-500 mt-1">
-                      {new Date(item.createdAt).toLocaleDateString()}
+
+                    <p className="text-ocean-300 text-sm">
+                      {new Date(
+                        item.createdAt
+                      ).toLocaleDateString()}
                     </p>
-                    <div className="flex items-center gap-3 mt-4">
-                      <div
-                        className="w-10 h-10 rounded-full border-4 border-white shadow"
-                        style={{ backgroundColor: item.skinTone || "#ccc" }}
-                      />
-                      <span className="px-4 py-1 bg-purple-100 text-purple-800 rounded-full text-xs font-bold">
-                        {item.undertone?.toUpperCase() || "N/A"}
-                      </span>
-                    </div>
                   </div>
                 </div>
               ))}
@@ -207,78 +332,86 @@ export default function Profile() {
         </div>
       </div>
 
-      {/* Modal - Detailed View */}
+      {/* MODAL */}
       {selectedItem && (
-        <div
-          className="fixed inset-0 bg-black/80 flex items-center justify-center p-4 z-50"
-          onClick={() => setSelectedItem(null)}
-        >
-          <div
-            className="bg-white rounded-3xl max-w-4xl w-full max-h-[95vh] overflow-y-auto shadow-2xl"
-            onClick={(e) => e.stopPropagation()}
-          >
-            <div className="sticky top-0 bg-white border-b border-gray-200 p-6 flex justify-between items-center">
-              <h2 className="text-2xl font-bold">Outfit Recommendations</h2>
-              <button
-                onClick={() => setSelectedItem(null)}
-                className="p-3 hover:bg-gray-100 rounded-xl transition"
-              >
-                <X size={28} />
-              </button>
-            </div>
+        <div className="fixed inset-0 bg-black/70 flex justify-center items-center z-50 p-6">
+          <div className="bg-ocean-900 max-w-2xl w-full rounded-3xl p-8 relative overflow-y-auto max-h-[90vh]">
 
-            <div className="p-8">
-              <img
-                src={`${BACKEND_URL}/uploads/${selectedItem.imagePath}`}
-                alt="Your photo"
-                className="w-full max-h-96 object-contain rounded-2xl shadow-xl bg-gray-50 mb-8"
-                onError={(e) => {
-                  e.target.src = "https://via.placeholder.com/800x600/f3f4f6/9ca3af?text=Image+Not+Found";
-                }}
-              />
+            <button
+              onClick={() =>
+                setSelectedItem(null)
+              }
+              className="absolute top-4 right-4 text-white"
+            >
+              <X />
+            </button>
 
-              <div className="grid grid-cols-3 gap-8 mb-10 text-center">
-                <div>
-                  <p className="text-gray-600 mb-3">Skin Tone</p>
+            <h2 className="text-2xl font-bold text-white mb-6">
+              {selectedItem.event}
+            </h2>
+
+            {/* outfits */}
+            <div className="space-y-4">
+              {selectedItem.recommendations?.map(
+                (rec, index) => (
                   <div
-                    className="w-24 h-24 mx-auto rounded-full shadow-lg border-4 border-white"
-                    style={{ backgroundColor: selectedItem.skinTone || "#ccc" }}
-                  />
-                </div>
-                <div>
-                  <p className="text-gray-600 mb-3">Undertone</p>
-                  <span className="inline-block px-8 py-4 bg-[#7C3AED] text-white rounded-full font-bold text-xl">
-                    {selectedItem.undertone?.toUpperCase() || "N/A"}
-                  </span>
-                </div>
-                <div>
-                  <p className="text-gray-600 mb-3">Date</p>
-                  <p className="font-bold text-xl">
-                    {new Date(selectedItem.createdAt).toLocaleDateString()}
-                  </p>
-                </div>
-              </div>
+                    key={index}
+                    className="bg-white/5 p-4 rounded-xl"
+                  >
+                    <h3 className="text-cyan-bright font-bold">
+                      Outfit {index + 1}
+                    </h3>
 
-              <h3 className="text-2xl font-bold text-center mb-8">Recommended Outfits</h3>
-              <div className="space-y-8">
-                {selectedItem.recommendations?.map((rec, i) => (
-                  <div key={i} className="bg-gradient-to-r from-purple-50 to-pink-50 p-8 rounded-2xl border border-purple-200">
-                    <h4 className="text-xl font-bold text-[#7C3AED] mb-4">Outfit {i + 1}</h4>
-                    <p className="text-2xl font-bold text-gray-900 mb-3">{rec.outfit}</p>
-                    <p className="text-gray-700 leading-relaxed">{rec.reason}</p>
+                    <p className="text-white">
+                      {rec.outfit}
+                    </p>
+
+                    <p className="text-ocean-300 text-sm mt-2">
+                      {rec.reason}
+                    </p>
                   </div>
-                ))}
-              </div>
-
-              <button
-                onClick={() => handleDelete(selectedItem._id)}
-                disabled={deleting}
-                className="w-full mt-12 bg-red-500 text-white py-4 rounded-xl font-bold text-lg hover:bg-red-600 disabled:opacity-60 transition flex items-center justify-center gap-3"
-              >
-                <Trash2 size={24} />
-                {deleting ? "Deleting..." : "Delete This Session"}
-              </button>
+                )
+              )}
             </div>
+
+            {/* premium context */}
+            {selectedItem.recommendationContext && (
+              <div className="mt-6 bg-white/5 p-4 rounded-xl">
+                <h3 className="text-white font-bold mb-2">
+                  AI Style Summary
+                </h3>
+                <p className="text-ocean-200">
+                  {selectedItem.recommendationContext}
+                </p>
+              </div>
+            )}
+
+            {/* chat button */}
+            {selectedItem.conversationId && (
+              <button
+                onClick={() =>
+                  handleChat(
+                    selectedItem.conversationId
+                  )
+                }
+                className="w-full mt-6 bg-cyan-bright text-ocean-900 py-4 rounded-xl font-bold flex items-center justify-center gap-2"
+              >
+                <MessageCircle size={18} />
+                Continue AI Stylist Chat
+              </button>
+            )}
+
+            {/* delete */}
+            <button
+              onClick={() =>
+                handleDelete(selectedItem._id)
+              }
+              disabled={deleting}
+              className="w-full mt-4 bg-red-500 text-white py-4 rounded-xl font-bold flex items-center justify-center gap-2"
+            >
+              <Trash2 size={18} />
+              Delete Recommendation
+            </button>
           </div>
         </div>
       )}

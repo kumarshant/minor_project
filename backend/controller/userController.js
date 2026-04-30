@@ -7,6 +7,7 @@ const signup = async (req, res) => {
   try {
     const { username, email, password } = req.body;
     // Check if user exist
+    console.log({email})
     const userExists = await User.findOne({ email });
     if (userExists) {
       return res.status(400).json({ message: "User already exists" });
@@ -54,11 +55,20 @@ const login = async (req, res) => {
     const isMatch = await bcrypt.compare(password, user.password);
     if (!isMatch) return res.status(401).json({ message: "Invalid email or password" });
 
+     if(user.userType==="PREMIUM" &&  user.premiumExpiresAt < new Date()){
+         user.userType= "STANDARD",
+         user.referredBy=null,
+         user.premiumExpiresAt=null
+
+         await user.save();
+     }
+
    res.json({
   user: {
     _id: user._id,
     username: user.username,
     email: user.email,
+    userType:user.userType
   },
   token: generateToken(user._id),
 });
@@ -79,6 +89,9 @@ const getProfile = async (req, res) => {
         username: user.username,
         email: user.email,
         images: user.images || [],
+        userType:user.userType,
+        credits:user.credits,
+        reneual_date:user.premiumExpiresAt
       });
     } else {
       res.status(404).json({ message: "User not found" });
@@ -133,11 +146,49 @@ const deleteProfile = async (req, res) => {
   }
 };
 
+const getPremium = async(req, res)=>{
+   const userId = req.user.id;
+   const referralCode= req.body.referralCode || "";
+   try{
+     const user = await User.findById(userId);
+     if(!user) return res.status(404).json({message: "user not found"});
+
+     if(user.userType==="PREMIUM" &&  user.premiumExpiresAt > new Date()){
+      return res.status(400).json({
+    message: "You already have an active premium plan"
+  });
+       }
+     if(user.credits < 500){
+      return res.status(404).json({message: "insufficient token "});
+     }
+     user.credits -= 500;
+    if (referralCode) {
+      user.referredBy = referralCode;
+    }
+    user.userType = "PREMIUM";
+    user.premiumExpiresAt = new Date(
+      Date.now() + 30 * 24 * 60 * 60 * 1000
+    );
+
+    // Save changes
+    await user.save();
+
+    return res.status(200).json({
+      message: "Congratulations! You can enjoy premium features now.",
+      credits_left: user.credits,
+      premiumExpiresAt: user.premiumExpiresAt
+    });
+   }
+   catch (err){
+    res.status(500).json({message: err.message})
+   }
+}
 
 module.exports={
     signup,
     login,
     getProfile,
     editProfile,
-    deleteProfile
+    deleteProfile,
+    getPremium
 }

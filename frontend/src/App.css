@@ -1,42 +1,63 @@
-#root {
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: 2rem;
-  text-align: center;
+/* Ocean Theme Utilities */
+
+.glass-effect {
+  @apply bg-white/80 backdrop-blur-md border border-white/20;
 }
 
-.logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
-  transition: filter 300ms;
-}
-.logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
-}
-.logo.react:hover {
-  filter: drop-shadow(0 0 2em #61dafbaa);
+.glass-effect-dark {
+  @apply bg-ocean-950/80 backdrop-blur-md border border-white/10;
 }
 
-@keyframes logo-spin {
+.gradient-ocean {
+  @apply bg-gradient-to-br from-ocean-900 via-ocean-800 to-ocean-700;
+}
+
+.gradient-cyan {
+  @apply bg-gradient-to-r from-ocean-600 to-cyan-accent;
+}
+
+.card-ocean {
+  @apply bg-white rounded-xl p-6 shadow-ocean hover:shadow-ocean-lg transition-shadow duration-300;
+}
+
+.card-dark {
+  @apply bg-ocean-950/50 rounded-xl p-6 shadow-ocean border border-ocean-700/50;
+}
+
+.btn-primary {
+  @apply bg-gradient-to-r from-ocean-600 to-ocean-700 text-white px-6 py-3 rounded-lg font-semibold hover:shadow-neon-lg transition-all duration-300 hover:scale-105;
+}
+
+.btn-secondary {
+  @apply bg-ocean-100 text-ocean-900 px-6 py-3 rounded-lg font-semibold hover:bg-ocean-200 transition-all duration-300;
+}
+
+.btn-ghost {
+  @apply text-ocean-600 px-4 py-2 rounded-lg hover:bg-ocean-100 transition-colors duration-300;
+}
+
+.text-gradient {
+  @apply bg-gradient-to-r from-ocean-600 to-cyan-accent bg-clip-text text-transparent;
+}
+
+.neon-border {
+  @apply border-2 border-cyan-bright box-shadow-neon;
+}
+
+/* Smooth entrance animations */
+.slide-in {
+  @apply animate-slide-up;
+}
+
+.fade-in {
+  animation: fadeIn 0.6s ease-out;
+}
+
+@keyframes fadeIn {
   from {
-    transform: rotate(0deg);
+    opacity: 0;
   }
   to {
-    transform: rotate(360deg);
+    opacity: 1;
   }
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  a:nth-of-type(2) .logo {
-    animation: logo-spin infinite 20s linear;
-  }
-}
-
-.card {
-  padding: 2em;
-}
-
-.read-the-docs {
-  color: #888;
 }

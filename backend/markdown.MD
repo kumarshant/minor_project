@@ -10,7 +10,7 @@ The backend is designed as a **RESTful API** that integrates with a **React/Next
 
 - **Auth Service** → Handles user registration, login, and JWT authentication.  
 - **Image Service** → Uploads images and extracts dominant colors.  
-- **Analysis Service** → Detects skin tone & undertones using AI/ML (TensorFlow.js / ml5.js).  
+- **Analysis Service** → Detects skin tone & undertones using AI/ML (opencv.js).  
 - **Recommendation Engine** → Suggests fashion palettes & outfits (event/season-specific).  
 - **Database Layer** → Stores users, preferences, and recommendation history.  
 
@@ -28,3 +28,19 @@ flowchart TD
     F --> G[(Recommendation Engine - GEMINI )]
     G --> H[(Database - MongoDB/Local Storage)]
     H --> B
+
+
+flowchart TD
+
+A[Signup/Login] --> B{User Type}
+
+B -->|Standard| C[OpenCV Analysis]
+C --> D[Gemini Outfit Recommendation]
+D --> E[Save Recommendation]
+
+B -->|Premium| F[Payment Verification]
+F --> G[Gemini Vision Analysis]
+G --> H[Advanced Recommendations]
+H --> I[Shopping Links]
+I --> J[AI Stylist Chat]
+J --> K[Save Conversation]

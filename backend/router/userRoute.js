@@ -3,21 +3,23 @@ const router= express.Router();
 const auth=require('../middleware/auth');
 
 const {
-     signup,
+    signup,
     login,
     getProfile,
     editProfile,
-    deleteProfile
+    deleteProfile,
+    getPremium
 }= require('../controller/userController')
 
 
 router.post('/register',signup );
 router.post('/login',login);
-
 router.get('/me',auth,getProfile);
 router.put('/me',auth,editProfile);
-router.delete('/delete',auth, deleteProfile);
+router.delete('/me',auth, deleteProfile);
 
+//for user to get premium
+router.post('/getPremium',auth , getPremium);
 
 
 

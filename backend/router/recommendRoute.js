@@ -1,33 +1,62 @@
-// routes/recommendRoutes.js
-const express = require('express');
+const express = require("express");
 const router = express.Router();
-const path = require('path');
-const multer = require('multer');
-const auth = require('../middleware/auth');
+
+const path = require("path");
+const multer = require("multer");
+
+const auth = require("../middleware/auth");
+
 const {
-  generateFromImage,
+  generateRecommendation,
   getHistory,
   getRecommendationById,
   deleteRecommendation
-} = require('../controller/recommendController');
+} = require("../controller/recommendController");
 
-// multer storage for image upload in this route 
+
+// upload config
 const storage = multer.diskStorage({
-  destination: (req, file, cb) => cb(null, path.join(__dirname, '../uploads')),
-  filename: (req, file, cb) => cb(null, `${Date.now()}-${file.originalname}`),
+  destination: (req, file, cb) => {
+    cb(null, path.join(__dirname, "../uploads"));
+  },
+
+  filename: (req, file, cb) => {
+    cb(null, `${Date.now()}-${file.originalname}`);
+  }
 });
-const upload = multer({ storage, limits: { fileSize: 5 * 1024 * 1024 } });
+
+const upload = multer({
+  storage,
+  limits: {
+    fileSize: 5 * 1024 * 1024
+  }
+});
 
 
+// single route
+router.post(
+  "/generate",
+  auth,
+  upload.single("image"),
+  generateRecommendation
+);
 
-// Route A: POST generate with image upload
-router.post('/generate', auth, upload.single('image'), generateFromImage);
-// Route B: GET history
-router.get('/history', auth, getHistory);
+router.get(
+  "/history",
+  auth,
+  getHistory
+);
 
-// Route C: GET single recommendation
-router.get('/:id', auth, getRecommendationById);
+router.get(
+  "/:id",
+  auth,
+  getRecommendationById
+);
 
-router.delete("/:id",auth, deleteRecommendation );
+router.delete(
+  "/:id",
+  auth,
+  deleteRecommendation
+);
 
-module.exports = router;
+module.exports = router; 

@@ -1,4 +1,3 @@
-// src/pages/Home.jsx
 import { Link, useNavigate } from "react-router-dom";
 import {
   Sparkles,
@@ -6,269 +5,310 @@ import {
   Palette,
   Zap,
   ArrowRight,
-  CheckCircle,
   Star,
-  LogOut,
-  User,
+  Aperture,
+  Wand2,
+  TrendingUp,
+  Shield,
+  Clock,
 } from "lucide-react";
+
 import { useAuthStore } from "../store/useAuthStore";
+import Navbar from "../components/Navbar";
+import Payment from "../components/Payment"
+
+import Generate from "../pages/Generate"
+import Profile from "../pages/Profile"
+
 
 export default function Home() {
-  const { user, logout } = useAuthStore();
+  const { user } = useAuthStore();
   const navigate = useNavigate();
 
-  const handleLogout = () => {
-    logout();
-    navigate("/login");
-  };
+  const features = [
+    {
+      icon: Aperture,
+      title: "AI-Powered Accuracy",
+      desc: "Our ML models analyze thousands of styling data points for perfect color matches.",
+    },
+    {
+      icon: Palette,
+      title: "Color Science",
+      desc: "Discover if you're warm, cool, or neutral with scientific precision.",
+    },
+    {
+      icon: Wand2,
+      title: "Instant Styling",
+      desc: "Get curated outfits tailored specifically to you in seconds.",
+    },
+    {
+      icon: TrendingUp,
+      title: "Trend Analysis",
+      desc: "Stay updated with personalized fashion trends that work for you.",
+    },
+    {
+      icon: Shield,
+      title: "100% Private",
+      desc: "Your photos and data are never shared.",
+    },
+    {
+      icon: Clock,
+      title: "Save Time",
+      desc: "No more decision paralysis. Style smarter with AI guidance.",
+    },
+  ];
+
+  const testimonials = [
+    {
+      name: "Abhinav",
+      role: "Student",
+      text: "StyleAI is what we built and we’re proud of it. Absolutely incredible!",
+      rating: 5,
+    },
+    {
+      name: "Hardik",
+      role: "Fashion Enthusiast",
+      text: "The accuracy of the color analysis blew my mind. Styling made simple.",
+      rating: 5,
+    },
+    {
+      name: "Vikas",
+      role: "Frontend Developer",
+      text: "As a designer, I appreciate both the tech and fashion expertise.",
+      rating: 5,
+    },
+  ];
 
   return (
-    <>
-      {/* Navigation */}
-      <nav className="sticky top-0 z-50 bg-white/80 backdrop-blur-md border-b border-gray-200">
-        <div className="container mx-auto px-6 py-4 flex items-center justify-between">
-          <div className="flex items-center gap-2">
-            <Sparkles className="w-8 h-8 text-primary-600" />
-            <span className="text-2xl font-bold text-gray-900">StyleAI</span>
-          </div>
+    <div className="min-h-screen bg-dark-50 flex flex-col overflow-x-hidden">
+      <Navbar showProfile={false} />
 
-          <div className="flex items-center gap-4">
-            {user ? (
-              /* Logged In */
-              <>
-                <Link
-                  to="/generate"
-                  className="text-gray-900 font-semibold hover:text-primary-600 transition"
-                >
-                  Generate Outfits
-                </Link>
-
-                <Link
-                  to="/profile"
-                  className="p-2 bg-primary-100 rounded-lg hover:bg-primary-200 transition"
-                  title="Profile"
-                >
-                  <User className="w-5 h-5 text-primary-700" />
-                </Link>
-
-                <button
-                  onClick={handleLogout}
-                  className="bg-primary-600 text-white px-6 py-2 rounded-full font-semibold hover:bg-primary-700 transition flex items-center gap-2"
-                >
-                  <LogOut size={18} />
-                  Logout
-                </button>
-              </>
-            ) : (
-              /* Guest */
-              <>
-                <Link
-                  to="/login"
-                  className="text-gray-900 font-semibold hover:text-primary-600 transition"
-                >
-                  Login
-                </Link>
-                <Link
-                  to="/register"
-                  className="bg-primary-600 text-white px-6 py-2 rounded-full font-semibold hover:bg-primary-700 transition"
-                >
-                  Sign Up
-                </Link>
-              </>
-            )}
-          </div>
+      {/* HERO SECTION */}
+      <section className="relative overflow-hidden pt-24 pb-20 lg:pt-32 lg:pb-28 bg-gradient-to-br from-ocean-50 via-white to-cyan-light/10">
+        
+        {/* Background Glow Effects */}
+        <div className="absolute inset-0 pointer-events-none overflow-hidden">
+          <div className="absolute top-0 right-0 w-96 h-96 bg-ocean-200 rounded-full blur-3xl opacity-30 -translate-y-1/2 translate-x-1/3"></div>
+          <div className="absolute bottom-0 left-0 w-96 h-96 bg-cyan-accent rounded-full blur-3xl opacity-20 translate-y-1/2 -translate-x-1/3"></div>
         </div>
-      </nav>
 
-      {/* Hero */}
-      <div className="min-h-screen bg-gradient-to-br from-primary-50 via-primary-100 to-primary-200 pt-20">
-        <div className="container mx-auto px-6 py-16 md:py-24">
-          <div className="text-center max-w-4xl mx-auto mb-16">
-            <div className="inline-block bg-primary-100 text-primary-700 px-4 py-2 rounded-full mb-6 font-semibold text-sm">
+        <div className="relative container mx-auto px-6">
+          <div className="text-center max-w-4xl mx-auto">
+            
+            {/* Badge */}
+            <div className="inline-flex items-center gap-2 bg-ocean-100 text-ocean-900 px-4 py-2 rounded-full mb-8 font-bold text-sm shadow-sm border border-ocean-200">
+              <Sparkles size={16} className="text-ocean-600" />
               Powered by Advanced AI & Color Science
             </div>
 
-            <h1 className="text-5xl md:text-7xl font-bold text-gray-900 mb-6">
-              Your Personal <span className="text-primary-600">AI Fashion</span> Stylist
+            {/* Heading */}
+            <h1 className="text-5xl md:text-6xl lg:text-7xl font-extrabold text-dark-900 tracking-tight mb-6">
+              Your Personal <br className="hidden md:block" />
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-ocean-700 to-cyan-bright">
+                AI Fashion Stylist
+              </span>
             </h1>
 
-            <p className="text-xl md:text-2xl text-gray-700 mb-8 leading-relaxed">
-              Upload a photo. Get 3 personalized outfits with color science,
-              undertone analysis, and professional style tips—all powered by
-              artificial intelligence.
+            {/* Subheading */}
+            <p className="text-xl md:text-2xl text-dark-700 mb-10 leading-relaxed max-w-3xl mx-auto font-medium">
+              Upload a photo. Get personalized outfits with advanced color science,
+              undertone analysis, and professional styling tips—instantly.
             </p>
 
-            {/* Conditional Hero Buttons */}
-            <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              {user ? (
-                <Link
-                  to="/generate"
-                  className="inline-flex items-center bg-primary-600 text-white px-8 py-4 rounded-full text-lg font-semibold hover:bg-primary-700 transition shadow-lg hover:shadow-xl"
-                >
-                  <Sparkles className="w-5 h-5 mr-2" />
-                  Go to Generator
-                </Link>
-              ) : (
-                <Link
-                  to="/register"
-                  className="inline-flex items-center bg-primary-600 text-white px-8 py-4 rounded-full text-lg font-semibold hover:bg-primary-700 transition shadow-lg hover:shadow-xl"
-                >
-                  <Sparkles className="w-5 h-5 mr-2" />
-                  Start Styling Free
-                </Link>
-              )}
+            {/* Buttons */}
+            <div className="flex flex-col sm:flex-row gap-4 justify-center items-center mb-10">
+              <button
+                onClick={() => navigate(user ? "/generate" : "/register")}
+                className="w-full sm:w-auto flex items-center justify-center gap-2 bg-ocean-600 text-white px-8 py-4 rounded-full text-lg font-bold hover:bg-ocean-700 transition-all shadow-neon hover:scale-105"
+              >
+                <Sparkles size={20} />
+                {user ? "Go to Generator" : "Start Styling Free"}
+                <ArrowRight size={20} />
+              </button>
 
-              <Link
-                to="/generate"
-                className="inline-flex items-center bg-white text-gray-900 px-8 py-4 rounded-full text-lg font-semibold border-2 border-primary-600 hover:bg-primary-50 transition"
+              <button
+                onClick={() => navigate("/generate")}
+                className="w-full sm:w-auto flex items-center justify-center gap-2 px-8 py-4 rounded-full text-lg font-bold text-ocean-900 bg-white border-2 border-ocean-200 hover:border-ocean-600 hover:bg-ocean-50 transition-all"
               >
                 Try Demo
-                <ArrowRight className="w-5 h-5 ml-2" />
-              </Link>
+              </button>
             </div>
 
-            <p className="text-gray-600 mt-6 text-sm">
-              No credit card required • Instant results • 100% private
+            {/* Trust Indicators */}
+            <p className="text-dark-600 text-sm font-bold">
+              ✓ No credit card required • ✓ Instant results • ✓ 100% private
             </p>
           </div>
 
           {/* Stats */}
-          <div className="grid md:grid-cols-4 gap-8 mt-20">
-            <div className="text-center bg-white/60 backdrop-blur-sm p-6 rounded-2xl">
-              <div className="text-4xl font-bold text-primary-600 mb-2">10+</div>
-              <p className="text-gray-700 font-semibold">Happy Users</p>
-            </div>
-            <div className="text-center bg-white/60 backdrop-blur-sm p-6 rounded-2xl">
-              <div className="text-4xl font-bold text-primary-600 mb-2">50+</div>
-              <p className="text-gray-700 font-semibold">Outfits Generated</p>
-            </div>
-            <div className="text-center bg-white/60 backdrop-blur-sm p-6 rounded-2xl">
-              <div className="text-4xl font-bold text-primary-600 mb-2">4.9/5</div>
-              <p className="text-gray-700 font-semibold">Average Rating</p>
-            </div>
-            <div className="text-center bg-white/60 backdrop-blur-sm p-6 rounded-2xl">
-              <div className="text-4xl font-bold text-primary-600 mb-2">6+</div>
-              <p className="text-gray-700 font-semibold">Perameters</p>
-            </div>
-          </div>
-        </div>
-
-        {/* Floating Elements */}
-        <div className="absolute top-32 left-10 animate-bounce">
-          <div className="w-16 h-16 bg-primary-300/40 rounded-full blur-xl"></div>
-        </div>
-        <div className="absolute bottom-20 right-10 animate-pulse">
-          <div className="w-24 h-24 bg-primary-200/40 rounded-full blur-2xl"></div>
-        </div>
-      </div>
-
-      {/* How It Works */}
-      <section className="py-20 bg-white">
-        <div className="container mx-auto px-6">
-          <div className="text-center mb-16">
-            <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
-              How It Works
-            </h2>
-            <p className="text-xl text-gray-600 max-w-2xl mx-auto">
-              Three simple steps to discover your perfect style using cutting-edge AI technology
-            </p>
-          </div>
-
-          <div className="grid md:grid-cols-3 gap-10 mb-16">
-            <div className="text-center group">
-              <div className="w-20 h-20 bg-primary-100 rounded-2xl flex items-center justify-center mx-auto mb-6 group-hover:bg-primary-200 transition">
-                <Camera className="w-10 h-10 text-primary-600" />
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6 mt-20 max-w-5xl mx-auto">
+            {[
+              { value: "10K+", label: "Active Users" },
+              { value: "50K+", label: "Outfits Generated" },
+              { value: "4.9/5", label: "Average Rating" },
+              { value: "98%", label: "Accuracy Rate" },
+            ].map((stat, idx) => (
+              <div
+                key={idx}
+                className="bg-white p-6 rounded-2xl text-center shadow-ocean border border-ocean-100"
+              >
+                <div className="text-3xl md:text-4xl font-black text-ocean-700 mb-2">
+                  {stat.value}
+                </div>
+                <p className="text-dark-700 font-bold text-sm md:text-base">
+                  {stat.label}
+                </p>
               </div>
-              <h3 className="text-2xl font-semibold mb-3">Upload Photo</h3>
-              <p className="text-gray-600">
-                Share a selfie or headshot. Our AI instantly detects skin tone, undertone, and face shape with 98% accuracy.
-              </p>
-            </div>
-
-            <div className="text-center group">
-              <div className="w-20 h-20 bg-primary-100 rounded-2xl flex items-center justify-center mx-auto mb-6 group-hover:bg-primary-200 transition">
-                <Palette className="w-10 h-10 text-primary-600" />
-              </div>
-              <h3 className="text-2xl font-semibold mb-3">Color Analysis</h3>
-              <p className="text-gray-600">
-                Discover if you're warm, cool, or neutral. We match colors based on color science that make you naturally glow.
-              </p>
-            </div>
-
-            <div className="text-center group">
-              <div className="w-20 h-20 bg-primary-100 rounded-2xl flex items-center justify-center mx-auto mb-6 group-hover:bg-primary-200 transition">
-                <Zap className="w-10 h-10 text-primary-600" />
-              </div>
-              <h3 className="text-2xl font-semibold mb-3">Get 3 Outfits</h3>
-              <p className="text-gray-600">
-                Receive curated looks with detailed reasons, color swatches.
-              </p>
-            </div>
+            ))}
           </div>
         </div>
       </section>
 
-      {/* Features, Testimonials, CTA, Footer remain unchanged */}
-      {/* ... (everything below is exactly the same as your original) ... */}
-
-      {/* Features */}
-      <section className="py-20 bg-gray-50">
-        <div className="container mx-auto px-6">
+      {/* HOW IT WORKS */}
+      <section className="py-24 bg-white">
+        <div className="container mx-auto px-6 max-w-6xl">
           <div className="text-center mb-16">
-            <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
+            <h2 className="text-4xl md:text-5xl font-extrabold text-dark-900 mb-4">
+              How It Works
+            </h2>
+            <p className="text-xl text-dark-600 font-medium max-w-2xl mx-auto">
+              Three simple steps to discover your perfect style.
+            </p>
+          </div>
+
+          <div className="grid md:grid-cols-3 gap-10">
+            {[
+              {
+                icon: Camera,
+                title: "Upload Photo",
+                desc: "Upload a selfie and let AI analyze your features.",
+              },
+              {
+                icon: Palette,
+                title: "Color Analysis",
+                desc: "Discover your ideal tones and season palette.",
+              },
+              {
+                icon: Zap,
+                title: "Get Outfits",
+                desc: "Receive curated outfits instantly.",
+              },
+            ].map((item, idx) => {
+              const Icon = item.icon;
+
+              return (
+                <div
+                  key={idx}
+                  className="text-center group p-6 rounded-2xl hover:bg-ocean-50 transition-all"
+                >
+                  <div className="w-20 h-20 bg-ocean-100 rounded-2xl flex items-center justify-center mx-auto mb-6 group-hover:bg-ocean-600 transition-all">
+                    <Icon className="w-10 h-10 text-ocean-600 group-hover:text-white" />
+                  </div>
+
+                  <h3 className="text-2xl font-bold text-dark-900 mb-3">
+                    {item.title}
+                  </h3>
+
+                  <p className="text-dark-600 leading-relaxed font-medium">
+                    {item.desc}
+                  </p>
+                </div>
+              );
+            })}
+          </div>
+        </div>
+      </section>
+
+      {/* FEATURES */}
+      <section className="py-24 bg-dark-50 border-y border-ocean-100">
+        <div className="container mx-auto px-6 max-w-6xl">
+          <div className="text-center mb-16">
+            <h2 className="text-4xl md:text-5xl font-extrabold text-dark-900 mb-4">
               Why Choose StyleAI?
             </h2>
-            <p className="text-xl text-gray-600 max-w-2xl mx-auto">
+
+            <p className="text-xl text-dark-600 font-medium">
               Advanced technology meets fashion expertise
             </p>
           </div>
 
-          <div className="grid md:grid-cols-2 gap-10">
-            {/* Your 6 feature cards here (unchanged) */}
-            <div className="bg-white p-8 rounded-2xl shadow-md hover:shadow-lg transition">
-              <div className="flex items-start gap-4">
-                <CheckCircle className="w-8 h-8 text-primary-600 flex-shrink-0 mt-1" />
-                <div>
-                  <h3 className="text-xl font-semibold mb-2">AI-Powered Accuracy</h3>
-                  <p className="text-gray-600">
-                    Our machine learning models analyze thousands of styling data points to ensure perfect color matches and recommendations tailored specifically to you.
-                  </p>
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {features.map((feature, idx) => {
+              const Icon = feature.icon;
+
+              return (
+                <div
+                  key={idx}
+                  className="bg-white p-8 rounded-2xl shadow-sm hover:shadow-ocean transition-all border border-ocean-100"
+                >
+                  <div className="flex items-start gap-4">
+                    <div className="p-3 bg-ocean-100 rounded-lg text-ocean-700 flex-shrink-0">
+                      <Icon size={24} />
+                    </div>
+
+                    <div>
+                      <h3 className="text-xl font-bold text-dark-900 mb-2">
+                        {feature.title}
+                      </h3>
+
+                      <p className="text-dark-600 leading-relaxed font-medium">
+                        {feature.desc}
+                      </p>
+                    </div>
+                  </div>
                 </div>
-              </div>
-            </div>
-            {/* ... repeat the other 5 ... */}
+              );
+            })}
           </div>
         </div>
       </section>
 
-      {/* Testimonials */}
-      <section className="py-20 bg-white">
-        <div className="container mx-auto px-6">
+      {/* TESTIMONIALS */}
+      <section className="py-24 bg-white">
+        <div className="container mx-auto px-6 max-w-6xl">
           <div className="text-center mb-16">
-            <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
+            <h2 className="text-4xl md:text-5xl font-extrabold text-dark-900 mb-4">
               Loved by Creators
             </h2>
-            <p className="text-xl text-gray-600">
-              See what users say about their StyleAI experience
+
+            <p className="text-xl text-dark-600 font-medium">
+              See what users say about StyleAI
             </p>
           </div>
 
           <div className="grid md:grid-cols-3 gap-8">
-            {[
-              { name: "Abhinav", role: "Student", text: "StyleAI is what we have built and proud of.", rating: 5 },
-              { name: "Hardik", role: "Fashion Enthusiast", text: "The color analysis is spot-on...", rating: 5 },
-              { name: "Vikas", role: "Frontend dev", text: "As a designer, I appreciate the science...", rating: 5 },
-            ].map((t, i) => (
-              <div key={i} className="bg-gray-50 p-8 rounded-2xl">
-                <div className="flex items-center gap-1 mb-4">
-                  {[...Array(t.rating)].map((_, j) => (
-                    <Star key={j} className="w-5 h-5 fill-yellow-400 text-yellow-400" />
+            {testimonials.map((testimonial, idx) => (
+              <div
+                key={idx}
+                className="bg-dark-50 p-8 rounded-2xl border border-ocean-100 hover:shadow-ocean transition-all"
+              >
+                <div className="flex items-center gap-1 mb-6">
+                  {[...Array(testimonial.rating)].map((_, j) => (
+                    <Star
+                      key={j}
+                      size={18}
+                      className="fill-yellow-500 text-yellow-500"
+                    />
                   ))}
                 </div>
-                <p className="text-gray-700 mb-6 italic">"{t.text}"</p>
-                <div>
-                  <p className="font-semibold text-gray-900">{t.name}</p>
-                  <p className="text-sm text-gray-600">{t.role}</p>
+
+                <p className="text-dark-800 mb-8 italic leading-relaxed text-lg font-medium">
+                  "{testimonial.text}"
+                </p>
+
+                <div className="flex items-center gap-3">
+                  <div className="w-10 h-10 bg-ocean-600 rounded-full flex items-center justify-center font-bold text-white">
+                    {testimonial.name.charAt(0)}
+                  </div>
+
+                  <div>
+                    <p className="font-bold text-dark-900">
+                      {testimonial.name}
+                    </p>
+                    <p className="text-sm text-dark-500 font-bold">
+                      {testimonial.role}
+                    </p>
+                  </div>
                 </div>
               </div>
             ))}
@@ -276,54 +316,134 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Final CTA */}
-      <section className="py-20 bg-gradient-to-r from-primary-600 to-primary-700">
-        <div className="container mx-auto px-6 text-center">
-          <h2 className="text-4xl md:text-5xl font-bold text-white mb-6">
+      {/* FINAL CTA */}
+      <section className="py-24 bg-ocean-gradient relative overflow-hidden">
+        <div className="container mx-auto px-6 text-center relative z-10">
+          <h2 className="text-4xl md:text-5xl font-black text-white mb-6">
             Ready to Discover Your Perfect Colors?
           </h2>
-          <p className="text-xl text-white/90 mb-8 max-w-2xl mx-auto">
-            Join now to style with AI-powered color analysis
+
+          <p className="text-xl text-white mb-10 max-w-2xl mx-auto font-medium">
+            Join thousands of users styling with AI-powered fashion analysis.
           </p>
 
-          {user ? (
-            <Link
-              to="/generate"
-              className="inline-flex items-center bg-white text-primary-600 px-10 py-5 rounded-full text-xl font-bold hover:bg-primary-50 transition shadow-2xl"
-            >
-              Go to Generator <ArrowRight className="w-6 h-6 ml-3" />
-            </Link>
-          ) : (
-            <Link
-              to="/register"
-              className="inline-flex items-center bg-white text-primary-600 px-10 py-5 rounded-full text-xl font-bold hover:bg-primary-50 transition shadow-2xl"
-            >
-              Get Your Style Report Free <ArrowRight className="w-6 h-6 ml-3" />
-            </Link>
-          )}
+          <button
+            onClick={() => navigate(user ? "/generate" : "/register")}
+            className="inline-flex items-center bg-white text-ocean-900 px-10 py-4 rounded-full text-lg font-black hover:bg-ocean-50 hover:scale-105 transition-all shadow-neon"
+          >
+            {user ? "Go to Generator" : "Get Started Free"}
+            <ArrowRight className="w-5 h-5 ml-2" />
+          </button>
 
-          <p className="text-white/70 mt-6">Free forever • No credit card • Results in seconds</p>
+          <p className="text-cyan-light mt-6 font-bold">
+            Free forever • No credit card required • Results in seconds
+          </p>
         </div>
       </section>
+    
 
-      {/* Footer */}
-      <footer className="bg-gray-900 text-white py-12">
-        <div className="container mx-auto px-6">
-          <div className="grid md:grid-cols-4 gap-8 mb-8">
-            <div>
-              <div className="flex items-center gap-2 mb-4">
-                <Sparkles className="w-6 h-6 text-primary-400" />
-                <span className="text-xl font-bold">StyleAI</span>
+      <section
+        id="pricing"
+  className="py-0 bg-gradient-to-b from-ocean-900 to-ocean-950 relative overflow-hidden">
+         <Payment/>
+      </section>
+
+      {/* FOOTER */}
+      <footer className="bg-dark-900 text-gray-300 py-16">
+        <div className="container mx-auto px-6 max-w-6xl">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-8 md:gap-12 mb-12">
+            <div className="col-span-2 md:col-span-1">
+              <div className="flex items-center gap-2 mb-6">
+                <div className="p-2 bg-ocean-600 rounded-lg">
+                  <Sparkles size={20} className="text-white" />
+                </div>
+
+                <span className="text-2xl font-black text-white">
+                  StyleAI
+                </span>
               </div>
-              <p className="text-gray-400 text-sm">Your AI-powered fashion stylist</p>
+
+              <p className="text-gray-400 text-sm leading-relaxed font-medium">
+                Your AI-powered fashion stylist built with color science.
+              </p>
             </div>
-            {/* Footer links unchanged */}
+
+            <div>
+              <p className="font-black mb-4 text-white uppercase text-xs">
+                Product
+              </p>
+
+              <ul className="space-y-3 text-sm font-bold">
+                <li>
+                  <Link
+                    to="/generate"
+                    className="hover:text-cyan-bright transition-colors"
+                  >
+                    Generator
+                  </Link>
+                </li>
+
+                <li>
+                  <Link
+                    to="/profile"
+                    className="hover:text-cyan-bright transition-colors"
+                  >
+                    Profile
+                  </Link>
+                </li>
+              </ul>
+            </div>
+
+            <div>
+              <p className="font-black mb-4 text-white uppercase text-xs">
+                Company
+              </p>
+
+              <ul className="space-y-3 text-sm font-bold">
+                <li>
+                  <a href="#" className="hover:text-cyan-bright">
+                    About
+                  </a>
+                </li>
+                <li>
+                  <a href="#" className="hover:text-cyan-bright">
+                    Contact
+                  </a>
+                </li>
+              </ul>
+            </div>
+
+            <div>
+              <p className="font-black mb-4 text-white uppercase text-xs">
+                Legal
+              </p>
+
+              <ul className="space-y-3 text-sm font-bold">
+                <li>
+                  <a href="#" className="hover:text-cyan-bright">
+                    Privacy Policy
+                  </a>
+                </li>
+                <li>
+                  <a href="#" className="hover:text-cyan-bright">
+                    Terms of Service
+                  </a>
+                </li>
+              </ul>
+            </div>
           </div>
-          <div className="border-t border-gray-700 pt-8 text-center text-gray-400 text-sm">
-            <p>&copy; 2025 StyleAI. All rights reserved.</p>
+
+          <div className="border-t border-dark-700 pt-8 text-center text-gray-400 text-sm flex flex-col md:flex-row justify-between items-center gap-4">
+            <p className="font-bold">
+              © {new Date().getFullYear()} StyleAI. All rights reserved.
+            </p>
+
+            <p className="font-bold">
+              Made with ❤️ by the StyleAI Team
+            </p>
           </div>
         </div>
       </footer>
-    </>
+    </div>
   );
 }

@@ -2,9 +2,9 @@
   "name": "backend",
   "version": "1.0.0",
   "main": "index.js",
-  "scripts": {
-    "dev": "nodemon start dev",
-    "test": "echo \"Error: no test specified\" && exit 1"
+   "scripts": {
+    "dev": "nodemon index.js",
+    "start": "node index.js"
   },
   "keywords": [],
   "author": "",
@@ -12,6 +12,7 @@
   "description": "",
   "dependencies": {
     "@google/generative-ai": "^0.24.1",
+    "axios": "^1.15.2",
     "bcrypt": "^6.0.0",
     "canvas": "^2.11.2",
     "chroma-js": "^3.1.2",
@@ -23,6 +24,7 @@
     "multer": "^2.0.2",
     "node-vibrant": "^4.0.3",
     "opencv.js": "^1.2.1",
+    "razorpay": "^2.9.6",
     "zod": "^4.1.11"
   },
   "devDependencies": {

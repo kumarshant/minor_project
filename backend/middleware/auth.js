@@ -8,16 +8,16 @@ const auth = (req, res, next) => {
     return res.status(401).json({ message: 'No token provided' });
   }
 
-  //getting token_string here 
   const token = authHeader.split(' ')[1];
 
   try {
-    //verifying token string 
+   
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
 
-    // attach user payload to request (so controllers can use req.user.id)
+    //here is some issue
     req.user = {
-      id: decoded.id
+       id: decoded.id
+      
     };
 
     next();

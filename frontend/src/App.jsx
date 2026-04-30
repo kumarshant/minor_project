@@ -1,9 +1,12 @@
 // src/App.jsx
 import { Routes, Route, Navigate } from 'react-router-dom';
+
 import { useAuthStore } from './store/useAuthStore';
 import Home from './pages/Home';
+// login and register wrapped inside the guest route. 
 import Login from './pages/Login';
 import Register from './pages/Register';
+// generate and profile is wrapped inside the protected route 
 import Generate from './pages/Generate';
 import Profile from './pages/Profile'
 
@@ -20,7 +23,7 @@ export default function App() {
         <Route path="/register" element={<Register />} />
         <Route 
         path= "/profile"                  
-    element= {<ProtectedRoute><Profile /></ProtectedRoute>} 
+       element= {<ProtectedRoute><Profile /></ProtectedRoute>} 
     /> 
         <Route
         path="/login"
